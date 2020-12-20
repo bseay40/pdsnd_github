@@ -33,3 +33,6 @@ Bikeshare CSV files used in project:
 Original repo forked from https://github.com/udacity/pdsnd_github.git
 Project completed for [Udacity's](https://www.udacity.com/) Programming for Data Science Nanodegree.
 :metal: :metal: :metal:
+
+#The brains behind this operation
+![Chewie](images/chewie.jpg)
