@@ -24,7 +24,12 @@ Data assessment outputs based on user inputs include:
 >Displays 5 line blocks of the raw data at the users discretion.
 
 ### Files used
-Include the files used
+Bikeshare CSV files used in project:
+1. chicago.csv
+2. new_york_city.csv
+3. washington.csv
 
 ### Credits
-It's important to give proper credit. Add links to any repo that inspired you or blogposts you consulted.
+Original repo forked from https://github.com/udacity/pdsnd_github.git
+Project completed for [Udacity's](https://www.udacity.com/) Programming for Data Science Nanodegree.
+:metal: :metal: :metal:
