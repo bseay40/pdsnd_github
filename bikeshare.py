@@ -80,7 +80,7 @@ def load_data(city, month, day):
 
     # extract month and day of week from Start Time to create new columns
     df['month'] = df['Start Time'].dt.month
-    df['day_of_week'] = df['Start Time'].dt.weekday_name
+    df['day_of_week'] = df['Start Time'].dt.day_name()
 
 
     # filter by month if applicable
@@ -118,7 +118,7 @@ def time_stats(df):
     print("The most popular month for bikesharing:", month_spelled[popular_month-1].title())
 
     # TO DO: display the most common day of week
-    df['day_of_week'] = df['Start Time'].dt.weekday_name
+    df['day_of_week'] = df['Start Time'].dt.day_name()
     popular_day = df['day_of_week'].mode().values[0]
     print("The most popular day of the week for bikesharing:", popular_day)
 
