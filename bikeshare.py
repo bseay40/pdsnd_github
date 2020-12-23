@@ -2,6 +2,10 @@
 """
 Created on Wed Dec  2 18:53:08 2020
 
+Code update on Sun Dec 20 19:43:00 2020
+    Panda function weekday_name not compatible w/ current version of python (3.8.5)
+    Updated to function day_name(), which is compatible.
+
 @author: SEAY
 """
 
@@ -29,7 +33,7 @@ def get_filters():
     while city not in city_list:
         print("Oops! It looks like the city you selected isn't on our list. Let's try again.")
         city = input("What city would you like to explore bikeshare data? Please enter chicago, new york city, or washington: ").lower()
-    
+
     print("Sounds good! We'll explore bike data in", city.title())
 
     # TO DO: get user input for month (all, january, february, ... , june)
@@ -38,12 +42,12 @@ def get_filters():
     while month not in month_list:
         print("Oops! It looks like the month you selected isn't on our list. Let's try again.")
         month = input("What month do you want to analyze? Please enter either all, january, february, march, april, may, june: ").lower()
-        
+
     if month == "all":
         print("Ok, we'll investigate data for all months available.")
     else:
         print("Ok, we'll investigate for the month of", month.title())
-    
+
 
     # TO DO: get user input for day of week (all, monday, tuesday, ... sunday)
     day_list = ["all", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
@@ -51,7 +55,7 @@ def get_filters():
     while day not in day_list:
         print("Oops! It looks like the day of week you selected isn't on our list. Let's try again.")
         day = input("What day of the week do you want to investigate? Please enter either all, monday, tuesday, wednesday, thursday, friday, saturday, or sunday: ").lower()
-    
+
     if day == "all":
         print("Ok, we'll investigate data for all days of the week.")
     else:
@@ -74,13 +78,13 @@ def load_data(city, month, day):
     """
     # load data file into a dataframe
     df = pd.read_csv(CITY_DATA[city])
-  
+
     # convert the Start Time column to datetime
     df['Start Time'] = pd.to_datetime(df['Start Time'])
 
     # extract month and day of week from Start Time to create new columns
     df['month'] = df['Start Time'].dt.month
-    df['day_of_week'] = df['Start Time'].dt.weekday_name
+    df['day_of_week'] = df['Start Time'].dt.day_name()
 
 
     # filter by month if applicable
@@ -88,7 +92,7 @@ def load_data(city, month, day):
         # use the index of the months list to get the corresponding int
         months = ['january', 'february', 'march', 'april', 'may', 'june']
         month = months.index(month) + 1
-    
+
         # filter by month to create the new dataframe
         df = df[df['month'] == month]
 
@@ -102,10 +106,10 @@ def load_data(city, month, day):
 
 def time_stats(df):
     """Displays statistics on the most frequent times of travel.
-    
+
     Input: df = the filtered (based on user inputs) bikeshare dataframe.
-    
-    Outputs: prints to screen the most common month, day, and hour for bicycling. 
+
+    Outputs: prints to screen the most common month, day, and hour for bicycling.
     """
 
     print('\nCalculating The Most Frequent Times of Travel...\n')
@@ -118,7 +122,7 @@ def time_stats(df):
     print("The most popular month for bikesharing:", month_spelled[popular_month-1].title())
 
     # TO DO: display the most common day of week
-    df['day_of_week'] = df['Start Time'].dt.weekday_name
+    df['day_of_week'] = df['Start Time'].dt.day_name()
     popular_day = df['day_of_week'].mode().values[0]
     print("The most popular day of the week for bikesharing:", popular_day)
 
@@ -133,9 +137,9 @@ def time_stats(df):
 
 def station_stats(df):
     """Displays statistics on the most popular stations and trip.
-    
+
     Input: df = the filtered (based on user inputs) bikeshare dataframe.
-    
+
     Outputs: prints to screen start/end station stats.
     """
 
@@ -155,7 +159,7 @@ def station_stats(df):
     print(df['Start Plus End'].value_counts().index[0])
     print("This Start/End Station combination was used a total of", df['Start Plus End'].value_counts()[0], "times for the city, month(s), day(s) selected.")
     #print(df.groupby(['Start Station', 'End Station'])['Start Station', 'End Station'].count())#.values[0])
-    
+
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
@@ -163,9 +167,9 @@ def station_stats(df):
 
 def trip_duration_stats(df):
     """Displays statistics on the total and average trip duration.
-    
+
     Input: df = the filtered (based on user inputs) bikeshare dataframe.
-    
+
     Outputs: prints to screen the total and average trip duration for the given study period.
     """
 
@@ -184,9 +188,9 @@ def trip_duration_stats(df):
 
 def user_stats(df, city):
     """Displays statistics on bikeshare users.
-    
+
     Input: df = the filtered (based on user inputs) bikeshare dataframe.
-    
+
     Outputs: prints to screen user characteristics (gender, birth year).
     """
 
@@ -211,12 +215,12 @@ def user_stats(df, city):
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
-    
+
 def raw_data(df):
     """Displays 5 line blocks of the raw data at the users discretion
-    
+
     Input: df = the filtered (based on user inputs) bikeshare dataframe.
-    
+
     Outputs: chunks (5 rows) of the raw dataframe output to screen until the user says to stop.
     """
     show_me_data = input('Would you like to view some of the raw data (5 lines worth)? Yes or No: ').lower()
@@ -224,18 +228,18 @@ def raw_data(df):
     while show_me_data not in yes_or_no:
         print("Oops! That isn't a valid entry. Let's try again.")
         show_me_data = input('Would you like to view some of the raw data (5 lines worth)? Yes or No: ').lower()
-        
+
     lines = 0
     while show_me_data != "no" and lines < (df.shape[0]-5):
         print(df[lines:lines+5])#.head(5))
         lines += 5
         show_me_data = input('Would you like to view 5 more lines? Yes or No: ').lower()
-        
+
         while show_me_data not in yes_or_no:
             print("Oops! That isn't a valid entry. Let's try again.")
             show_me_data = input('Would you like to view some of the raw data (5 lines worth)? Yes or No: ').lower()
-    
-    
+
+
 def main():
     while True:
         city, month, day = get_filters()
@@ -254,4 +258,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
